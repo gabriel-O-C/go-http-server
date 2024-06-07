@@ -23,7 +23,7 @@ func Handler(conn net.Conn) {
 		return
 	}
 
-	conn.Write([]byte("HTTP/1.1 404 NOT FOUND\r\n\r\n"))
+	conn.Write([]byte("HTTP/1.1 404 Not Found\r\n\r\n"))
 }
 func main() {
 	fmt.Println("Logs from your program will appear here!")
