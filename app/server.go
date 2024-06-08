@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func Handler(conn net.Conn) {
@@ -17,14 +18,22 @@ func Handler(conn net.Conn) {
 		return
 	}
 
-	if request.URL.Path == "/" {
+	var path = request.URL.Path
+	if path == "/" {
 
 		conn.Write([]byte("HTTP/1.1 200 OK\r\n\r\n"))
 		return
 	}
 
+	if strings.Contains(path, "/echo/") {
+		message := strings.Split(path, "/")[2]
+		conn.Write([]byte(fmt.Sprintf("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(message), message)))
+		return
+	}
+
 	conn.Write([]byte("HTTP/1.1 404 Not Found\r\n\r\n"))
 }
+
 func main() {
 	fmt.Println("Logs from your program will appear here!")
 
